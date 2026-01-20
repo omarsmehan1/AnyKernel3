@@ -4,19 +4,20 @@
 ### AnyKernel setup
 # global properties
 properties() { '
-kernel.string=RIO-302-UNOFFICIAL
+kernel.string=NovaKernel
 kernel.revision=5.4
 kernel.made=Omar @ Samsung Galaxy A73 | Official™
 anykernel3.made=osm0sis @ xda-developers
 kernel.compiler=Android clang 19.0.0
-message.word=Thank you for installing RIO-302
+message.word=Thank you for installing NovaKernel
 do.devicecheck=1
 do.cleanup=1
-do.modules=0
 device.name1=a73xq
-device.name2=a52sxq
-device.name3=m52xq
-supported.versions=11, 12, 13, 14, 15, 16
+device.name2=m52xq
+device.name3=a52xq
+supported.versions=12-16
+supported.patchlevels=
+supported.vendorpatchlevels=
 '; } # end properties
 
 ### AnyKernel install
@@ -25,26 +26,23 @@ BLOCK=boot;
 IS_SLOT_DEVICE=auto;
 NO_BLOCK_DISPLAY=1;
 
-# استيراد الوظائف الأساسية - لا تحذف هذا السطر
+# import functions/variables and setup patching - see for reference (DO NOT REMOVE)
 . tools/ak3-core.sh;
 
-# تثبيت الكيرنل (Image) في قسم الـ Boot
-dump_boot; 
-write_boot; 
+# boot install
+dump_boot;
 
-# تفليش الـ DTBO (إذا وجد الملف في الزيب سيقوم بتفليشه تلقائياً)
-flash_dtbo;
+write_boot;
+## end boot install
 
-# ---------------------------------------------------------
-# إعدادات قسم vendor_boot (لتفليش الـ DTB)
-BLOCK=vendor_boot;
+# vendor_boot shell variables
+BLOCK=vendor_boot
 
-# إعادة ضبط للبدء في تفليش القسم الثاني
+# reset for vendor_boot patching
 reset_ak;
 
-# تفليش الـ DTB في قسم vendor_boot
+# vendor_boot install
 split_boot;
-flash_boot; # سيقوم بتفليش الملفات الموجهة لهذا القسم
-flash_dtb;  # تفليش ملف dtb الذي نسخه السكربت
 
-## end install
+flash_boot;
+## end vendor_boot install
